@@ -23,17 +23,17 @@ addBookmarkBtn.addEventListener("click",function loadBookmarks() {
 )
     }
 })
-function loadBookmarks(){
+function addBookmarks(){
     const li = document.createElement("li")
     const link = document.createElement("a")
-    link.href=url
+    link.href = url
     link.textContent = name
     link.target="_blank"
     const removeButton = document.createElement("button")
     removeButton.textContent = "Remove"
     removeButton.addEventListener("click", function(){
         bookmarkList.removeChild(li)
-        removeBookmarkFromStorage(this.name,url)
+        removeBookmarkFromStorage(name,url)
     });
     li.appendChild(link);
     li.appendChild(removeButton);
@@ -48,4 +48,13 @@ function saveBookmark(name,url){
     bookmarks.push({name,url})
     localStorage.setItem("bookmarks",JSON.stringigy(bookmarks))
 
+}
+function loadBookmarks(){
+    const bookmarks = getBookmarksFromstorage()
+    bookmarks.forEach((bookmark) => addBookmarkBtn(bookmark.name,bookmark.url))
+}
+function removeBookmarkFromStorage(name, url){
+    const bookmarks = getBookmarksFromStorage();
+    bookmarks = bookmarks.filter((bookmark) => bookmark.name !== name || bookmark.url !== url);
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
 }
